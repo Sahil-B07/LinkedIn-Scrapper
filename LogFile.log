@@ -1,0 +1,10 @@
+Demo test cases
+2022-09-22 19:14:01,873 INFO:logging in....
+2022-09-22 19:14:12,560 INFO:Successfully logged in.
+2022-09-22 19:16:58,027 INFO:Invitation sent to Pranusha Apuri.(M) Link: https://www.linkedin.com/in/pranusha-apuri/
+2022-09-22 19:17:09,059 INFO:Invitation sent to Seung P..(M) Link: https://www.linkedin.com/in/seung-p-094195105/
+2022-09-22 19:22:30,575 INFO:Invitation sent to William Davenport.(M) Link: https://www.linkedin.com/in/whiskeydelta/
+2022-09-22 19:22:42,784 INFO:Invitation sent to Tarun Inakollu.(M) Link: https://www.linkedin.com/in/tarun-inakollu/
+2022-09-22 19:22:42,784 INFO:Task Completed.
+
+2022-09-22 19:22:42,784 INFO:Total 4 invites have been sent.
