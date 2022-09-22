@@ -147,6 +147,6 @@ if __name__ == '__main__':
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     time.sleep(2)
     
-    maxInv = 4
+    maxInv = 10
 
     sendInv(maxInv)

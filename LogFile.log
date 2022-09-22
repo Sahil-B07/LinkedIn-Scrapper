@@ -1,10 +1,7 @@
-Demo test cases
-2022-09-22 19:14:01,873 INFO:logging in....
-2022-09-22 19:14:12,560 INFO:Successfully logged in.
-2022-09-22 19:16:58,027 INFO:Invitation sent to Pranusha Apuri.(M) Link: https://www.linkedin.com/in/pranusha-apuri/
-2022-09-22 19:17:09,059 INFO:Invitation sent to Seung P..(M) Link: https://www.linkedin.com/in/seung-p-094195105/
-2022-09-22 19:22:30,575 INFO:Invitation sent to William Davenport.(M) Link: https://www.linkedin.com/in/whiskeydelta/
-2022-09-22 19:22:42,784 INFO:Invitation sent to Tarun Inakollu.(M) Link: https://www.linkedin.com/in/tarun-inakollu/
-2022-09-22 19:22:42,784 INFO:Task Completed.
-
-2022-09-22 19:22:42,784 INFO:Total 4 invites have been sent.
+2022-09-22 21:07:19,818 INFO:logging in....
+2022-09-22 21:07:24,605 INFO:Successfully logged in.
+2022-09-22 21:07:36,370 INFO:Invitation sent to Sahil Shrivastava.(C) Link: https://www.linkedin.com/in/sahil-shrivastava-359334152
+2022-09-22 21:07:50,773 INFO:Invitation sent to Keyur Mushrif.(C) Link: https://www.linkedin.com/search/results/people/headless?geoUrn=%5B103644278%5D&origin=GLOBAL_SEARCH_HEADER&keywords=Masters%20Computer%20Science%20Student
+2022-09-22 21:08:04,882 INFO:Invitation sent to Koushik Reddy.(C) Link: https://www.linkedin.com/search/results/people/headless?geoUrn=%5B103644278%5D&origin=GLOBAL_SEARCH_HEADER&keywords=Masters%20Computer%20Science%20Student
+2022-09-22 21:15:23,466 INFO:Invitation sent to Akhil Sunkara.(M) Link: https://www.linkedin.com/in/akhil-sunkara-19a167193/
+2022-09-22 21:16:18,033 INFO:Invitation sent to Saisuraj Chindam.(M) Link: https://www.linkedin.com/in/chindamsaisuraj/
