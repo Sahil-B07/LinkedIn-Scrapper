@@ -135,12 +135,10 @@ def sendInv(maxInv):
     with open('data.csv', 'a', newline='') as f:
         write = csv.writer(f) 
 
-        if os.path.isfile("./data.csv"):
-            write.writerows(rows) 
-        else:
+        if not os.path.isfile("./data.csv"):
             write.writerows(fields) 
-            write.writerows(rows) 
-
+        
+        write.writerows(rows) 
 
     logging.info(f"Total {counter} invites have been sent.")
     driver.quit()
