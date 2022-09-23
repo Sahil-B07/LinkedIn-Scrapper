@@ -1,11 +1,8 @@
-import csv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-import time, getpass, logging
+import time, getpass, logging, os, csv
 
 def logedIn():
 
@@ -16,8 +13,8 @@ def logedIn():
 
     driver.get('https://linkedin.com')
     logging.info("logging in....")
-
     time.sleep(1)
+
     driver.find_element(
         By.XPATH, "//input[@name = 'session_key']").send_keys(username)
     driver.find_element(
@@ -43,14 +40,12 @@ def sendInv(maxInv):
     for i in range(1, 100):
         
         if counter == maxInv:
-            logging.info("Task Completed.")
             break
     
         if i > 1:
             driver.get(base_url.replace('INDEX', str(i)))
             
         time.sleep(3)
-
         allButtons = driver.find_elements(By.TAG_NAME, "button")
         inviteBtns = [btn for btn in allButtons if (btn.text == 'Connect' or btn.text == 'Message')]
 
@@ -61,17 +56,18 @@ def sendInv(maxInv):
                     profile = button.get_attribute(
                         "aria-label").split(" ")
 
-                    fname = profile[1]
-                    lname = profile[2]
+                    inName = profile[1] +" "+profile[2]
                     profile_link = driver.find_element(By.XPATH, "//span[@class='entity-result__title-text t-16']/child::a").get_attribute("href")
                     flag = "C"
 
                     driver.execute_script("arguments[0].click();", button)
-
                     time.sleep(2)
 
                     addNote = driver.find_elements(By.TAG_NAME, "button")
                     noteBtn = [btn for btn in addNote if btn.text == 'Add a note']
+
+                    sendBtn = [btn for btn in addNote if btn.text == 'Send']
+                    # To send message use....., line 78 after invMsg......and line 82 comment closeInv ->,  driver.execute_script("arguments[0].click();", sendBtn) 
 
                     if len(noteBtn) > 0:
                         driver.execute_script("arguments[0].click();", noteBtn[0])
@@ -84,8 +80,8 @@ def sendInv(maxInv):
                             By.XPATH, "//button[@aria-label = 'Dismiss']")
                         driver.execute_script("arguments[0].click();", closeInv)
                         counter += 1
-                        logging.info(f"Invitation sent to {fname} {lname}.(C) Link: {profile_link}")
-                        rows.append([fname, profile_link, flag])
+                        logging.info(f"Invitation sent to {inName}.(C) Link: {profile_link}")
+                        rows.append([inName, profile_link, flag])
                         if counter == maxInv:
                             break
                     else:
@@ -97,19 +93,15 @@ def sendInv(maxInv):
                     time.sleep(2)
                     
                     Btns = driver.find_elements(By.TAG_NAME, "button")
-
-                    # send button to send the invite message
-                    sendBtn = [btn.text for btn in Btns if btn.text == 'Send']
-                    print(sendBtn)
+                    # To send message use....., line 110 after invMsg......and line 114 comment closeInv ->,  driver.execute_script("arguments[0].click();", sendBtn) 
+                    sendBtn = [btn.text for btn in Btns if btn.get_attribute('class') == 'msg-form__send-button artdeco-button artdeco-button--1']
 
                     if len(sendBtn) > 0:
                         pid = driver.find_element(By.XPATH, "//a[@class='msg-compose__profile-link ember-view']")
                         profile = pid.text.split(" ")
-                        fname = profile[0]
-                        lname = profile[1]
+                        inName = profile[0] +" "+profile[1]
                         profile_link = pid.get_attribute("href")
                         flag = "M"
-
                         
                         invMsg = driver.find_element(
                                 By.XPATH, "//div[@aria-label = 'Write a message…']/child::p").send_keys("Hi, I'm DevEloper\n\nJust testing my bot Please pardon me.")
@@ -127,8 +119,8 @@ def sendInv(maxInv):
                             logging.error(e)
 
                         counter += 1
-                        logging.info(f"Invitation sent to {fname} {lname}.(M) Link: {profile_link}")
-                        rows.append([fname, profile_link, flag])
+                        logging.info(f"Invitation sent to {inName}.(M) Link: {profile_link}")
+                        rows.append([inName, profile_link, flag])
                         if counter == maxInv:
                             break
                     else:
@@ -136,38 +128,45 @@ def sendInv(maxInv):
                             By.XPATH, "//button[@aria-label = 'Dismiss']")
                         driver.execute_script("arguments[0].click();", closeInv)
 
-                
-
             except Exception as e:
                 logging.error(e)
     
-    with open('data.csv', 'w') as f:
+    # saving the user data to whom invitation is addressed
+    with open('data.csv', 'a', newline='') as f:
         write = csv.writer(f) 
-        write.writerows(fields) 
-        write.writerows(rows) 
 
-    logging.info(f"Total {counter} invites have been sent.\n")
+        if os.path.isfile("./data.csv"):
+            write.writerows(rows) 
+        else:
+            write.writerows(fields) 
+            write.writerows(rows) 
+
+
+    logging.info(f"Total {counter} invites have been sent.")
     driver.quit()
 
 if __name__ == '__main__':
 
+    # basic log file settings
     logging.basicConfig(level=logging.INFO,filename="logFile.log",format='%(asctime)s %(levelname)s:%(message)s')
 
     PATH = Service('./chromedriver') 
 
+    # enable chrome options 
     chrome_options = Options()
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)"+"AppleWebKit/537.36 (KHTML, like Gecko)"+"Chrome/87.0.4280.141 Safari/537.36")
-    # chrome_options.add_argument("--headless") , options=chrome_options
+    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
 
-    driver = webdriver.Chrome(service=PATH)
+    # setting the driver
+    driver = webdriver.Chrome(service=PATH, options=chrome_options)
 
     maxInv = int(input("Max Results: "))
-    logedIn()
+    logedIn()  # Logging function
 
     # loading filtered page
     base_url = 'https://www.linkedin.com/search/results/people/?geoUrn=%5B%22103644278%22%5D&keywords=Masters%20Computer%20Science%20Student&origin=GLOBAL_SEARCH_HEADER&page=INDEX'
     driver.get(base_url.replace('INDEX', '1'))
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     time.sleep(2)
 
-    sendInv(maxInv)
+    sendInv(maxInv)  # Send invitaions function
