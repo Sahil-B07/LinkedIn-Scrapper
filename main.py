@@ -45,7 +45,7 @@ def sendInv(maxInv):
         if i > 1:
             driver.get(base_url.replace('INDEX', str(i)))
             
-        time.sleep(3)
+        time.sleep(2)
         allButtons = driver.find_elements(By.TAG_NAME, "button")
         inviteBtns = [btn for btn in allButtons if (btn.text == 'Connect' or btn.text == 'Message')]
 
@@ -132,14 +132,18 @@ def sendInv(maxInv):
                 logging.error(e)
     
     # saving the user data to whom invitation is addressed
-    with open('data.csv', 'a', newline='') as f:
-        write = csv.writer(f) 
+    
 
-        if not os.path.isfile("./data.csv"):
+    if not os.path.isfile(os.path.join(os.getcwd(), "data.csv")):
+        with open('data.csv', 'a', newline='') as f:
+            write = csv.writer(f) 
             write.writerows(fields) 
+            write.writerows(rows) 
+    else:
+        with open('data.csv', 'a', newline='') as f:
+            write = csv.writer(f) 
+            write.writerows(rows) 
         
-        write.writerows(rows) 
-
     logging.info(f"Total {counter} invites have been sent.")
     driver.quit()
 
