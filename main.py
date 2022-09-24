@@ -53,11 +53,9 @@ def sendInv(maxInv):
             try:
             
                 if button.text == "Connect":
-                    profile = button.get_attribute(
-                        "aria-label").split(" ")
-
+                    profile = button.get_attribute("aria-label").split(" ")
                     inName = profile[1] +" "+profile[2]
-                    profile_link = driver.find_element(By.XPATH, "//span[@class='entity-result__title-text t-16']/child::a").get_attribute("href")
+                    profile_link = driver.find_element(By.XPATH, "//span[@dir = 'ltr']/parent::a[@class = 'app-aware-link']").get_attribute("href")
                     flag = "C"
 
                     driver.execute_script("arguments[0].click();", button)
